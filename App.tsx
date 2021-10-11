@@ -10,21 +10,32 @@ import {
 } from "react-native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import TabNavigator from "./sources/navigation/TabNav/TabNavigator";
+import { useApolloClient } from "./sources/hooks/useApolloClient";
+import AppLoading from "expo-app-loading";
+import { ApolloProvider } from "@apollo/client";
 
 export default function App() {
   const navTheme = DefaultTheme;
   navTheme.colors.background = "#f2f996";
 
+  const client = useApolloClient();
+
+  if (!client) {
+    return <AppLoading />;
+  }
+
   return (
-    <NavigationContainer theme={navTheme}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <TabNavigator />
-      </KeyboardAvoidingView>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <ApolloProvider client={client}>
+      <NavigationContainer theme={navTheme}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
+          <TabNavigator />
+        </KeyboardAvoidingView>
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
 
