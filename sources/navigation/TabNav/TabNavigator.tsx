@@ -3,8 +3,8 @@ import { Text, View } from "react-native";
 import * as TabNavigationKeys from "./TabNavigationKeys";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import Card from "../../components/Card/Card";
-import Calculator from "../../components/Calculator/Calculator";
+import Cart from "../../screens/Cart/Cart";
+import Calculator from "../../screens/Calculator/Calculator";
 import DrawerNavigator from "../drawerNav/DrawerNavigation";
 
 export type RootTabParamList = {
@@ -15,14 +15,6 @@ export type RootTabParamList = {
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
 const TabNavigator: React.FC = () => {
   return (
     <Tab.Navigator
@@ -31,7 +23,14 @@ const TabNavigator: React.FC = () => {
         tabBarInactiveTintColor: "gray",
         tabBarStyle: { paddingTop: 5},
         tabBarLabelStyle: {fontSize: 12},
-        headerTransparent : true
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: "#f2f996",
+        },
+        headerTitleStyle: {
+          color: '#0d6efd',
+          fontSize: 20
+        }
       }}
       initialRouteName={"Main"}
     >
@@ -62,7 +61,7 @@ const TabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name={TabNavigationKeys.Cart}
-        component={Card}
+        component={Cart}
         options={{
           tabBarIcon: ({ focused, color }) => {
             let iconName: "md-cart" | "md-cart-outline";

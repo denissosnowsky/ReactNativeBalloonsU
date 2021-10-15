@@ -51,8 +51,8 @@ export function getApolloClient() {
         }
         return merged;
       },
-      read(existing: any[], { args: { skip, take } }: Record<string, any>) {
-        return existing && existing.slice(skip, skip + take);
+      read(existing: any[]) {
+        return existing && existing;
       },
     };
   }

@@ -6,13 +6,13 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import * as DrawerNavigationKeys from "./DrawerNavigationKeys";
-import Bouquets from "../../components/Bouquets/Bouquets";
-import Balloons from "../../components/Balloons/Ballons";
-import Price from "../../components/Price/Price";
-import Payment from "../../components/Payment/Payment";
-import Delivery from "../../components/Delivery/Delivery";
-import Contacts from "../../components/Contacts/Contacts";
-import Welcome from "../../components/Welcome/Welcome";
+import Price from "../../screens/Price/Price";
+import Payment from "../../screens/Payment/Payment";
+import Delivery from "../../screens/Delivery/Delivery";
+import Contacts from "../../screens/Contacts/Contacts";
+import Welcome from "../../screens/Welcome/Welcome";
+import StackBouquetsNavigation from "../stackNav/StackBouquetsNavigation";
+import StackBalloonsNavigator from "../stackNav/StackBalloonsNavigation";
 
 export type RootDrawerParamList = {
   [DrawerNavigationKeys.Welcome]: undefined;
@@ -27,6 +27,7 @@ export type RootDrawerParamList = {
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 const DrawerNavigator: React.FC = () => {
+  
   return (
     <Drawer.Navigator
       initialRouteName="Welcome"
@@ -41,9 +42,16 @@ const DrawerNavigator: React.FC = () => {
           width: "80%",
         },
         drawerItemStyle: {
-            marginBottom: 20
+          marginBottom: 20,
         },
-        headerTransparent : true,
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: "#f2f996",
+        },
+        headerTitleStyle: {
+          color: '#0d6efd',
+          fontSize: 20
+        }
       }}
     >
       <Drawer.Screen
@@ -51,13 +59,12 @@ const DrawerNavigator: React.FC = () => {
         component={Welcome}
         options={{
           drawerItemStyle: { display: "none" },
-          headerStyle: {backgroundColor: 'transparent'}
         }}
       />
       <Drawer.Screen
         name={DrawerNavigationKeys.Bouquets}
-        component={Bouquets}
-        options={{
+        component={StackBouquetsNavigation}
+        options={({ route }) => ({
           drawerIcon: ({ focused, color }) => {
             let iconName: "airballoon" | "airballoon-outline";
             iconName = focused ? "airballoon" : "airballoon-outline";
@@ -66,11 +73,11 @@ const DrawerNavigator: React.FC = () => {
               <MaterialCommunityIcons name={iconName} size={30} color={color} />
             );
           },
-        }}
+        })}
       />
       <Drawer.Screen
         name={DrawerNavigationKeys.Balloons}
-        component={Balloons}
+        component={StackBalloonsNavigator}
         options={{
           drawerIcon: ({ focused, color }) => {
             let iconName: "balloon" | "balloon";

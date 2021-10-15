@@ -11,8 +11,9 @@ import {
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import TabNavigator from "./sources/navigation/TabNav/TabNavigator";
 import { useApolloClient } from "./sources/hooks/useApolloClient";
-import AppLoading from "expo-app-loading";
 import { ApolloProvider } from "@apollo/client";
+import Loading from "./sources/components/Loading/Loading";
+import { NativeBaseProvider } from "native-base";
 
 export default function App() {
   const navTheme = DefaultTheme;
@@ -21,20 +22,22 @@ export default function App() {
   const client = useApolloClient();
 
   if (!client) {
-    return <AppLoading />;
+    return <Loading />;
   }
 
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer theme={navTheme}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-          style={styles.container}
-        >
-          <TabNavigator />
-        </KeyboardAvoidingView>
-        <StatusBar style="auto" />
-      </NavigationContainer>
+      <NativeBaseProvider>
+        <NavigationContainer theme={navTheme}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            style={styles.container}
+          >
+            <TabNavigator />
+          </KeyboardAvoidingView>
+          <StatusBar style="auto" />
+        </NavigationContainer>
+      </NativeBaseProvider>
     </ApolloProvider>
   );
 }
