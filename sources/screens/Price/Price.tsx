@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     paddingTop: 30
   },
   divider: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
   flatList: {
     width: "100%",

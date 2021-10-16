@@ -1,24 +1,57 @@
 import { Divider } from "native-base";
-import React, { useCallback } from "react";
-import { FlatList, ListRenderItem, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import Footer from "../../components/Foooter/Foooter";
 import ListWithCounter from "../../components/ListWithCounter/ListWithCounter";
 import Loading from "../../components/Loading/Loading";
+import { useCounterInitState } from "../../hooks/useCounterInitState";
 import { useAssortmentQuery } from "../../store/generated/graphql";
-import { AssortmentType } from "../../types/types";
+import { counterStateChanger } from "../../utils/counterStateChanger";
+import { inputStateChanger } from "../../utils/inputStateChanger";
 import { showError } from "../../utils/showError";
+import { sumOfObjectValues } from "../../utils/sumOfObjectValues";
 import Error from "../Error/Error";
 
 const Calculator: React.FC = () => {
   const { loading, error, data } = useAssortmentQuery();
 
-  const renderItem: ListRenderItem<AssortmentType> = useCallback(({ item }) => {
-    return (
-      <ListWithCounter key={item.id} name={item.name} price={item.price} />
-    );
-  }, []);
+  const initialState = data
+    ? useCounterInitState(data.assortment)
+    : useCounterInitState([]);
 
-  const keyExtractor = useCallback((item: AssortmentType) => item.id, []);
+  const [counters, setCounters] = useState<Record<string, number>>({});
+  const [sum, setSum] = useState<number>(0);
+
+  useEffect(() => {
+    setCounters(initialState);
+  }, [data]);
+
+  useEffect(() => {
+    setSum(sumOfObjectValues(counters));
+  }, [counters]);
+
+  const handleCounterPrice = (property: string, initValue: number) => {
+    return (value: number | string) => {
+      setCounters(
+        counterStateChanger(counters, property, Number(value), initValue)
+      );
+    };
+  };
+
+  const handleInputPrice = (property: string) => {
+    return (value: number | string) => {
+      setCounters(inputStateChanger(counters, property, value));
+    };
+  };
 
   if (error) {
     showError("Error. Please, reload the app");
@@ -30,18 +63,41 @@ const Calculator: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        style={styles.flatList}
-        data={data?.assortment! as Array<AssortmentType>}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        ItemSeparatorComponent={() => (
-          <Divider w={"100%"} style={styles.divider} />
-        )}
-        ListFooterComponent={<Footer />}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            {data &&
+              data?.assortment!.map((item) => (
+                <View key={item!.id}>
+                  <ListWithCounter
+                    name={item!.name}
+                    fixed={item!.fixed}
+                    price={
+                      Object.values(counters).length > 0
+                        ? counters[item!.id!]
+                        : 0
+                    }
+                    clb={
+                      item!.fixed
+                        ? handleCounterPrice(item!.id, Number(item!.price))
+                        : handleInputPrice(item!.id)
+                    }
+                  />
+                  <Divider w={"100%"} style={styles.divider} />
+                </View>
+              ))}
+          </KeyboardAvoidingView>
+          <View style={styles.total}>
+            <Text style={styles.totalText}>TOTAL:</Text>
+            <Text style={styles.totalText}>{`${sum} $`}</Text>
+          </View>
+          <Footer />
+        </ScrollView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -53,12 +109,22 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   divider: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
-  flatList: {
+  scrollView: {
     width: "100%",
-    flex: 1,
+  },
+  total: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  totalText: {
+    marginTop: 10,
+    fontSize: 20,
+    color: "#e91e63",
+    fontWeight: "700",
   },
 });
 

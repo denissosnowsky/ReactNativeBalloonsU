@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 const Footer: React.FC = () => {
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Footer;
+export default memo(Footer);

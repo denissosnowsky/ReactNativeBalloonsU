@@ -24,7 +24,7 @@ const Product: React.FC<ProductPropsType> = ({
     params: { info },
   },
 }) => {
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(1);
 
   const handleCountMinus = () => {
     count > 1 && setCount(count - 1);
