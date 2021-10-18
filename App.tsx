@@ -1,9 +1,10 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -13,15 +14,28 @@ import TabNavigator from "./sources/navigation/TabNav/TabNavigator";
 import { useApolloClient } from "./sources/hooks/useApolloClient";
 import { ApolloProvider } from "@apollo/client";
 import Loading from "./sources/components/Loading/Loading";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, useToast } from "native-base";
+import {
+  useFonts,
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+} from "@expo-google-fonts/roboto";
 
 export default function App() {
+
   const navTheme = DefaultTheme;
   navTheme.colors.background = "#f2f996";
 
   const client = useApolloClient();
 
-  if (!client) {
+  const [fontsLoaded] = useFonts({
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Roboto_700Bold,
+  });
+
+  if (!client || !fontsLoaded) {
     return <Loading />;
   }
 

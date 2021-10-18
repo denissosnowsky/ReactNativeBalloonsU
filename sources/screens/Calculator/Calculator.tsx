@@ -13,11 +13,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import Footer from "../../components/Foooter/Foooter";
 import ListWithCounter from "../../components/ListWithCounter/ListWithCounter";
 import Loading from "../../components/Loading/Loading";
+import MyText from "../../components/MyText/MyText";
 import { useCounterInitState } from "../../hooks/useCounterInitState";
 import { useAssortmentQuery } from "../../store/generated/graphql";
 import { counterStateChanger } from "../../utils/counterStateChanger";
 import { inputStateChanger } from "../../utils/inputStateChanger";
-import { showError } from "../../utils/showError";
 import { sumOfObjectValues } from "../../utils/sumOfObjectValues";
 import Error from "../Error/Error";
 
@@ -54,7 +54,6 @@ const Calculator: React.FC = () => {
   };
 
   if (error) {
-    showError("Error. Please, reload the app");
     return <Error />;
   }
 
@@ -63,57 +62,50 @@ const Calculator: React.FC = () => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
-            {data &&
-              data?.assortment!.map((item) => (
-                <View key={item!.id}>
-                  <ListWithCounter
-                    name={item!.name}
-                    fixed={item!.fixed}
-                    price={
-                      Object.values(counters).length > 0
-                        ? counters[item!.id!]
-                        : 0
-                    }
-                    clb={
-                      item!.fixed
-                        ? handleCounterPrice(item!.id, Number(item!.price))
-                        : handleInputPrice(item!.id)
-                    }
-                  />
-                  <Divider w={"100%"} style={styles.divider} />
-                </View>
-              ))}
-          </KeyboardAvoidingView>
+    <>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          {data &&
+            data?.assortment!.map((item) => (
+              <View key={item!.id}>
+                <ListWithCounter
+                  name={item!.name}
+                  fixed={item!.fixed}
+                  price={
+                    Object.values(counters).length > 0 ? counters[item!.id!] : 0
+                  }
+                  clb={
+                    item!.fixed
+                      ? handleCounterPrice(item!.id, Number(item!.price))
+                      : handleInputPrice(item!.id)
+                  }
+                />
+                <Divider w={"100%"} style={styles.divider} />
+              </View>
+            ))}
           <View style={styles.total}>
-            <Text style={styles.totalText}>TOTAL:</Text>
-            <Text style={styles.totalText}>{`${sum} $`}</Text>
+            <MyText style={styles.totalText}>TOTAL:</MyText>
+            <MyText style={styles.totalText}>{`${sum} $`}</MyText>
           </View>
           <Footer />
-        </ScrollView>
-      </View>
-    </TouchableWithoutFeedback>
+        </View>
+      </ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 15,
-    paddingTop: 30,
+    width: "100%",
   },
   divider: {
     marginTop: 5,
     marginBottom: 5,
   },
   scrollView: {
-    width: "100%",
+    flex: 1,
+    padding: 15,
+    paddingTop: 30,
   },
   total: {
     flexDirection: "row",
@@ -124,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 20,
     color: "#e91e63",
-    fontWeight: "700",
+    fontFamily: "Roboto_700Bold",
   },
 });
 

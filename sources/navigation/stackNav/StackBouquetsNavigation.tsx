@@ -7,7 +7,9 @@ import * as StackBouquetsNavigationKeys from "./StackBouquetsNavigationKeys";
 
 export type RootBouquetsStackParamList = {
   [StackBouquetsNavigationKeys.Main]: undefined;
-  [StackBouquetsNavigationKeys.Bouquet]: {info: BouquetType};
+  [StackBouquetsNavigationKeys.Bouquet]: {
+    info: BouquetType;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootBouquetsStackParamList>();
@@ -19,7 +21,6 @@ const StackBouquetsNavigator: React.FC = () => {
         headerTitleStyle: {
           color: "#e91e63",
           fontSize: 20,
-          fontWeight: '400',
         },
         headerTransparent: false,
         headerStyle: {
@@ -36,7 +37,9 @@ const StackBouquetsNavigator: React.FC = () => {
         <Stack.Screen
           name={StackBouquetsNavigationKeys.Bouquet}
           component={Product}
-          options={({ route }) => ({ title: `${route.params.info.name} ${route.params.info.subname}` })}
+          options={({ route }) => ({
+            title: `${route.params.info.name} ${route.params.info.subname}`,
+          })}
         />
       </>
     </Stack.Navigator>

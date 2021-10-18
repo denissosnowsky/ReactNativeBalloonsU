@@ -1,8 +1,9 @@
 import React, { memo, useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import Entypo from "@expo/vector-icons/Entypo";
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { Input } from "native-base";
 import { priceInputValidator } from "../../utils/priceInputValidator";
+import MyText from "../MyText/MyText";
 
 interface ListWithCounterProps {
   name: string;
@@ -35,16 +36,16 @@ const ListWithCounter: React.FC<ListWithCounterProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{name}</Text>
+      <MyText style={styles.text}>{name}</MyText>
       <View style={styles.counterWrapper}>
         {fixed ? (
           <>
             <Pressable onPress={handleMinus}>
-              <Entypo name="minus" size={35} color="black" />
+              <AntDesign name="minus" size={30} color="black" />
             </Pressable>
-            <Text style={styles.counter}>{count}</Text>
+            <MyText style={styles.counter}>{count}</MyText>
             <Pressable onPress={handlePlus}>
-              <Entypo name="plus" size={35} color="black" />
+              <AntDesign name="plus" size={30} color="black" />
             </Pressable>
           </>
         ) : (
@@ -66,7 +67,7 @@ const ListWithCounter: React.FC<ListWithCounterProps> = ({
           </View>
         )}
       </View>
-      <Text style={styles.price}>{`${price} $`}</Text>
+      <MyText style={styles.price}>{`${price} $`}</MyText>
     </View>
   );
 };
@@ -82,11 +83,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     flex: 5,
-    fontWeight: "500",
+    fontFamily: 'Roboto_500Medium'
   },
   price: {
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 18,
+    fontFamily: "Roboto_700Bold",
     color: "#e91e63",
     flex: 2,
     textAlign: "right",
@@ -98,12 +99,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   counter: {
     fontSize: 25,
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 10,
+    marginRight: 10,
   },
   inputWrapper: {
     width: "100%",
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#000",
     textAlign: "center",
-  },
+  }
 });
 
 export default memo(ListWithCounter);

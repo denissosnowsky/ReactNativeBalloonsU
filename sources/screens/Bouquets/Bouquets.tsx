@@ -16,7 +16,6 @@ import {
   useBouquetsQuery,
   useMaxBouquetPriceQuery,
 } from "../../store/generated/graphql";
-import { showError } from "../../utils/showError";
 import { NetworkStatus } from "@apollo/client";
 import Error from "../Error/Error";
 import { BouquetType } from "../../types/types";
@@ -26,6 +25,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { RootBouquetsStackParamList } from "../../navigation/stackNav/StackBouquetsNavigation";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/core";
+import MyText from "../../components/MyText/MyText";
 
 type MainBouquetScreenNavigationProp =
   NativeStackNavigationProp<RootBouquetsStackParamList>;
@@ -115,7 +115,10 @@ const Bouquets: React.FC = () => {
         (PRICE_STEP - (dataMaxPrice?.maxBouquetPrice! % PRICE_STEP)));
 
   const renderItem: ListRenderItem<BouquetType> = useCallback(({ item }) => {
-    const onPress = () => navigate("Bouquet", { info: item });
+    const onPress = () =>
+      navigate("Bouquet", {
+        info: item,
+      });
 
     return (
       <Pressable style={[styles.pressable]} onPress={onPress}>
@@ -143,7 +146,6 @@ const Bouquets: React.FC = () => {
   );
 
   if (errorBouquets || errorCount) {
-    showError("Error. Please, reload the app");
     return <Error />;
   }
 
@@ -164,7 +166,7 @@ const Bouquets: React.FC = () => {
         <Loading />
       ) : dataBouquets?.bouquets && dataBouquets?.bouquets.length === 0 ? (
         <View style={styles.emptyWrapper}>
-          <Text style={styles.emptyText}>There are no such balloons</Text>
+          <MyText style={styles.emptyText}>There are no such balloons</MyText>
         </View>
       ) : (
         <FlatList
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
   },
   pressable: {
     width: "50%",
-  }
+  },
 });
 
 export default memo(Bouquets);

@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import MyText from "../MyText/MyText";
 
 interface ListPropsType {
   name: string;
@@ -9,8 +10,8 @@ interface ListPropsType {
 const List: React.FC<ListPropsType> = ({ name, price }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{name}</Text>
-      <Text style={styles.price}>{`${price} $`}</Text>
+      <MyText style={styles.text}>{name}</MyText>
+      <MyText style={styles.price}>{`${price} $`}</MyText>
     </View>
   );
 };
@@ -27,11 +28,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     flex: 4,
-    fontWeight: '500'
+    fontFamily: 'Roboto_500Medium'
   },
   price: {
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 18,
+    fontFamily: "Roboto_700Bold",
     color: "#e91e63",
     flex: 3,
     textAlign: "right",

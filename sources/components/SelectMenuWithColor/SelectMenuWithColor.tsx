@@ -2,6 +2,7 @@ import { Menu, Pressable, View } from "native-base";
 import React, { useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import MyText from "../MyText/MyText";
 
 interface SelectMenuWithColorPropsType {
   list: Array<
@@ -40,7 +41,7 @@ const SelectMenuWithColor: React.FC<SelectMenuWithColorPropsType> = ({
                   color="#000"
                 />
               </View>
-              <Text style={styles.headerText}>{headerText}</Text>
+              <MyText style={styles.headerText}>{headerText}</MyText>
             </View>
           </Pressable>
         );
@@ -59,7 +60,7 @@ const SelectMenuWithColor: React.FC<SelectMenuWithColorPropsType> = ({
             <View
               style={[styles.colorBlock, { backgroundColor: item?.cssName }]}
             ></View>
-            <Text>{item?.name!}</Text>
+            <MyText>{item?.name!}</MyText>
           </Menu.Item>
         ))}
     </Menu>

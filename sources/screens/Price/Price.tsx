@@ -9,7 +9,6 @@ import React, { useCallback } from "react";
 import List from "../../components/List/List";
 import { Divider } from "native-base";
 import { useAssortmentQuery } from "../../store/generated/graphql";
-import { showError } from "../../utils/showError";
 import Error from "../Error/Error";
 import Loading from "../../components/Loading/Loading";
 import { AssortmentType } from "../../types/types";
@@ -26,7 +25,6 @@ const Price: React.FC = () => {
   const keyExtractor = useCallback((item: AssortmentType) => item.id, []);
 
   if (error) {
-    showError("Error. Please, reload the app");
     return <Error />;
   }
 

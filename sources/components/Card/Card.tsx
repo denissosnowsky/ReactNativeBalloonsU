@@ -1,7 +1,8 @@
 import { View } from "native-base";
 import React, { memo } from "react";
-import { Image, StyleSheet, Text } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { googleUrl } from "../../../config";
+import MyText from "../MyText/MyText";
 
 interface CardPropsType {
   name1: string;
@@ -21,9 +22,9 @@ const Card: React.FC<CardPropsType> = ({name1, name2, image, price}) => {
           }}
           loadingIndicatorSource={require("../../../assets/loading.gif")}
         />
-        <Text style={[styles.text, styles.text1]}>{`${name1}`}</Text>
-        <Text style={[styles.text, styles.text2]}>{`${name2}`}</Text>
-        <Text style={styles.price}>{`${price} $`}</Text>
+        <MyText style={[styles.text, styles.text1]}>{`${name1}`}</MyText>
+        <MyText style={[styles.text, styles.text2]}>{`${name2}`}</MyText>
+        <MyText style={styles.price}>{`${price} $`}</MyText>
       </View>
     </View>
   );
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     color: "#e91e63",
     fontSize: 20,
     textAlign: "center",
-    fontWeight: "700",
+    fontFamily: "Roboto_700Bold",
     marginBottom: 10,
   },
 });

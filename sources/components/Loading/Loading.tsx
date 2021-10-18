@@ -8,6 +8,7 @@ const Loading: React.FC = () => {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "#f2f996"
       }}
     >
       <Image source={require("../../../assets/loading.gif")} />

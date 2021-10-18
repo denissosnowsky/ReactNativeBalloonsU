@@ -3,7 +3,6 @@ import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import Loading from "../../components/Loading/Loading";
 import Error from "../Error/Error";
-import { showError } from "../../utils/showError";
 import {
   usePhonesQuery,
   useSocialNetsQuery,
@@ -12,6 +11,7 @@ import { formatNumber } from "../../utils/formatNumber";
 import { Link } from "native-base";
 import { googleUrl } from "../../../config";
 import Footer from "../../components/Foooter/Foooter";
+import MyText from "../../components/MyText/MyText";
 
 const Contacts: React.FC = () => {
   const {
@@ -26,7 +26,6 @@ const Contacts: React.FC = () => {
   } = useSocialNetsQuery();
 
   if (errorPhone || errorSocial) {
-    showError("Error. Please, reload the app");
     return <Error />;
   }
 
@@ -40,9 +39,9 @@ const Contacts: React.FC = () => {
         {dataPhone?.phones &&
           dataPhone?.phones.map((item) => (
             <Link href={`tel:${item?.number}`} key={item?.id}>
-              <Text style={styles.phoneText}>
+              <MyText style={styles.phoneText}>
                 {formatNumber(item?.number ? item?.number : "0")}
-              </Text>
+              </MyText>
             </Link>
           ))}
       </View>
@@ -63,7 +62,7 @@ const Contacts: React.FC = () => {
       </View>
       <View style={styles.emailWrapper}>
         <Link href="mailto:pg-balloons@gmail.com">
-          <Text style={styles.email}>pg-balloons@gmail.com</Text>
+          <MyText style={styles.email}>pg-balloons@gmail.com</MyText>
         </Link>
       </View>
       <Footer />

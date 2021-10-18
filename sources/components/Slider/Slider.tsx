@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { GestureResponderEvent, StyleSheet, Text, View } from "react-native";
 import { Slider } from "native-base";
+import MyText from "../MyText/MyText";
 
 interface SliderFilterPropsType {
   price: number | undefined;
@@ -27,9 +28,9 @@ const SliderFilter: React.FC<SliderFilterPropsType> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Max. price</Text>
+      <MyText style={styles.text}>Max. price</MyText>
       <View style={styles.wrapper}>
-        <Text style={styles.number}>{`${step} $`}</Text>
+        <MyText style={styles.number}>{`${step} $`}</MyText>
         <Slider
           defaultValue={price ? price : maxPrice}
           minValue={step}
@@ -45,7 +46,7 @@ const SliderFilter: React.FC<SliderFilterPropsType> = ({
           </Slider.Track>
           <Slider.Thumb />
         </Slider>
-        <Text style={styles.number}>{`${priceValue} $`}</Text>
+        <MyText style={styles.number}>{`${priceValue} $`}</MyText>
       </View>
     </View>
   );

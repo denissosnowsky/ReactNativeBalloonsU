@@ -21,7 +21,6 @@ import {
   useMaxBalloonPriceQuery,
   useMaxBouquetPriceQuery,
 } from "../../store/generated/graphql";
-import { showError } from "../../utils/showError";
 import { NetworkStatus } from "@apollo/client";
 import Error from "../Error/Error";
 import { BalloonType } from "../../types/types";
@@ -32,6 +31,7 @@ import Footer from "../../components/Foooter/Foooter";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootBalloonsStackParamList } from "../../navigation/stackNav/StackBalloonsNavigation";
 import { useNavigation } from "@react-navigation/core";
+import MyText from "../../components/MyText/MyText";
 
 type MainBalloonScreenNavigationProp =
   NativeStackNavigationProp<RootBalloonsStackParamList>;
@@ -174,7 +174,6 @@ const Bouquets: React.FC = () => {
   );
 
   if (errorBalloons || errorCount || errorCategory || errorColor) {
-    showError("Error. Please, reload the app");
     return <Error />;
   }
 
@@ -208,7 +207,7 @@ const Bouquets: React.FC = () => {
         <Loading />
       ) : dataBalloons?.balloons && dataBalloons?.balloons.length === 0 ? (
         <View style={styles.emptyWrapper}>
-          <Text style={styles.emptyText}>There are no such balloons</Text>
+          <MyText style={styles.emptyText}>There are no such balloons</MyText>
         </View>
       ) : (
         <FlatList

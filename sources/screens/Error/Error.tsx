@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import MyText from "../../components/MyText/MyText";
 
 const Error: React.FC = () => {
   return (
@@ -10,8 +11,8 @@ const Error: React.FC = () => {
         justifyContent: "center",
       }}
     >
-      <Text style={styles.text}>{"Error :("}</Text>
-      <Text style={styles.text}>Please, reload the app</Text>
+      <MyText style={styles.text}>{"Error :("}</MyText>
+      <MyText style={styles.text}>Please, reload the app</MyText>
     </View>
   );
 };

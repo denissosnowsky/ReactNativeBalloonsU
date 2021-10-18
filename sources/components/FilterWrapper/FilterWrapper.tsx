@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { display } from "styled-system";
 import { Divider } from "native-base";
+import MyText from "../MyText/MyText";
 
 const FilterWrapper: React.FC = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,7 @@ const FilterWrapper: React.FC = ({ children }) => {
     <View>
       <View style={{ display: isOpen ? "flex" : "none" }}>{children}</View>
       <View style={styles.textWrapper} onTouchEnd={() => setIsOpen(!isOpen)}>
-        <Text style={styles.text}>{isOpen ? 'Hide Filters' : 'Show Filters'}</Text>
+        <MyText style={styles.text}>{isOpen ? 'Hide Filters' : 'Show Filters'}</MyText>
         <View>
           <MaterialIcons
             name={isOpen ? "keyboard-arrow-up" : "filter-list"}

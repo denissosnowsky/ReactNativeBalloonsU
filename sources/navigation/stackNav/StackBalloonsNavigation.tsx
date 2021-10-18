@@ -19,7 +19,6 @@ const StackBalloonsNavigator: React.FC = () => {
         headerTitleStyle: {
           color: "#e91e63",
           fontSize: 20,
-          fontWeight: '400'
         },
         headerTransparent: false,
         headerStyle: {

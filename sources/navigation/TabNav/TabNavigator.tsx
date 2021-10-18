@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Cart from "../../screens/Cart/Cart";
 import Calculator from "../../screens/Calculator/Calculator";
 import DrawerNavigator from "../drawerNav/DrawerNavigation";
+import { useGetBasketValues } from "../../hooks/useGetBasketValues";
 
 export type RootTabParamList = {
   [TabNavigationKeys.Main]: undefined;
@@ -16,6 +17,9 @@ export type RootTabParamList = {
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const TabNavigator: React.FC = () => {
+
+  const basket = useGetBasketValues();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -69,7 +73,7 @@ const TabNavigator: React.FC = () => {
 
             return <Ionicons name={iconName} size={30} color={color} />;
           },
-          tabBarBadge: false ? 1 : undefined,
+          tabBarBadge: basket.length > 0 ? basket.length : undefined,
         }}
       />
     </Tab.Navigator>

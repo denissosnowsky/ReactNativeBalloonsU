@@ -8,6 +8,10 @@ import { RootBalloonsStackParamList } from "../../navigation/stackNav/StackBallo
 import { RootBouquetsStackParamList } from "../../navigation/stackNav/StackBouquetsNavigation";
 import Footer from "../Foooter/Foooter";
 import Entypo from "@expo/vector-icons/Entypo";
+import MyText from "../MyText/MyText";
+import { deleteFromBasket } from "../../utils/deleteFromBasket";
+import { addToBasket } from "../../utils/addToBasket";
+import { useGetBasketValues } from "../../hooks/useGetBasketValues";
 
 type BalloonScreenProps = NativeStackScreenProps<
   RootBalloonsStackParamList,
@@ -17,14 +21,21 @@ type BouquetScreenProps = NativeStackScreenProps<
   RootBouquetsStackParamList,
   "Bouquet"
 >;
-type ProductPropsType = BalloonScreenProps | BouquetScreenProps;
+type ProductPropsType = /* BalloonScreenProps |  */ BouquetScreenProps;
 
 const Product: React.FC<ProductPropsType> = ({
   route: {
     params: { info },
   },
 }) => {
-  const [count, setCount] = useState<number>(1);
+
+  const basket = useGetBasketValues();
+
+  const [count, setCount] = useState<number>(
+    info.basketStatus && info.basketStatus!.isInBasket
+      ? info.basketStatus!.basketQuantity!
+      : 1
+  );
 
   const handleCountMinus = () => {
     count > 1 && setCount(count - 1);
@@ -32,6 +43,22 @@ const Product: React.FC<ProductPropsType> = ({
 
   const handleCountPlus = () => {
     setCount(count + 1);
+  };
+
+  const handleDeleteItem = (id: string) => {
+    deleteFromBasket && deleteFromBasket(id);
+  };
+
+  const handleAddToBasket = () => {
+    addToBasket({
+      name: `${info.name} ${info.subname}`,
+      price: info.price,
+      quantity: count,
+      code: info.code,
+      description: info.description,
+      image: `${googleUrl}${info.image}`,
+      id: info.id,
+    });
   };
 
   return (
@@ -44,12 +71,12 @@ const Product: React.FC<ProductPropsType> = ({
 
       <View style={styles.flexColCenter}>
         <View style={[styles.flexColCenter, styles.nameWrapper]}>
-          <Text style={styles.name}>{info.name}</Text>
-          <Text style={styles.name}>{info.subname}</Text>
+          <MyText style={styles.name}>{info.name}</MyText>
+          <MyText style={styles.name}>{info.subname}</MyText>
         </View>
 
         <View style={[styles.flexColCenter]}>
-          <Text style={styles.price}>{`${info.price} $`}</Text>
+          <MyText style={styles.price}>{`${info.price} $`}</MyText>
         </View>
 
         <View style={[styles.counterWrapper, styles.flexColCenter]}>
@@ -57,29 +84,43 @@ const Product: React.FC<ProductPropsType> = ({
             <Pressable onPress={handleCountMinus}>
               <Entypo name="minus" size={35} color="black" />
             </Pressable>
-            <Text style={styles.counter}>{count}</Text>
+            <MyText style={styles.counter}>{count}</MyText>
             <Pressable onPress={handleCountPlus}>
               <Entypo name="plus" size={35} color="black" />
             </Pressable>
           </View>
           <Pressable
-            style={[{ backgroundColor: true ? "green" : "red" }, styles.button]}
+            style={[
+              {
+                backgroundColor: !basket.find(item=>item.id===info.id)
+                  ? "green"
+                  : "#e91e63",
+              },
+              styles.button,
+            ]}
+            onPress={
+              !basket.find(item=>item.id===info.id)
+                ? handleAddToBasket
+                : () => handleDeleteItem(info.id)
+            }
           >
-            <Text style={styles.buttonText}>
-              {true ? "Add to Cart" : "Remove from Cart"}
-            </Text>
+            <MyText style={styles.buttonText}>
+              {!basket.find(item=>item.id===info.id)
+                ? "Add to Cart"
+                : "Remove from Cart"}
+            </MyText>
           </Pressable>
         </View>
 
         <View style={[styles.flexColCenter]}>
-          <Text style={styles.header}>Composition: </Text>
+          <MyText style={styles.header}>Composition: </MyText>
         </View>
         <Divider w={"90%"} bg={"#ccc"} />
         <View style={[styles.flexColStretch]}>
-          <Text style={styles.text}>{info.description}</Text>
+          <MyText style={styles.text}>{info.description}</MyText>
         </View>
 
-        <Text style={styles.code}>{`Code: ${info.code}`}</Text>
+        <MyText style={styles.code}>{`Code: ${info.code}`}</MyText>
       </View>
       <Footer />
     </ScrollView>
@@ -89,7 +130,7 @@ const Product: React.FC<ProductPropsType> = ({
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    paddingBottom: 30
+    paddingBottom: 30,
   },
   image: {
     resizeMode: "contain",
@@ -123,12 +164,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 28,
-    fontWeight: "500",
+    fontFamily: "Roboto_500Medium",
     color: "#0d6efd",
   },
   price: {
     fontSize: 28,
-    fontWeight: "500",
+    fontFamily: "Roboto_500Medium",
     color: "#e91e63",
   },
   header: {
@@ -142,7 +183,6 @@ const styles = StyleSheet.create({
   },
   code: {
     fontSize: 15,
-    fontWeight: "400",
   },
   counterWrapper: {
     marginBottom: 20,
@@ -160,7 +200,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
-  operation: {},
   counter: {
     fontSize: 30,
     marginLeft: 10,

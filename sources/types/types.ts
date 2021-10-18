@@ -51,3 +51,29 @@ export type FetchedObjectType = {
 };
 
 export type ArrayConvertorArgType = Maybe<Maybe<FetchedObjectType>[]>;
+
+
+export type BasketStatusType = Maybe<{
+  isInBasket?: Maybe<boolean> | undefined;
+  basketQuantity?: Maybe<number> | undefined;
+}>;
+
+export type BasketObjType = {
+  name: string;
+  price: string;
+  id: string;
+  image: string;
+  description: string;
+  quantity: number;
+};
+
+export type FormType = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  code: string;
+  date: string;
+  time: string;
+};
+
