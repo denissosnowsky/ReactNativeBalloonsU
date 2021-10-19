@@ -21,7 +21,7 @@ type BouquetScreenProps = NativeStackScreenProps<
   RootBouquetsStackParamList,
   "Bouquet"
 >;
-type ProductPropsType = /* BalloonScreenProps |  */ BouquetScreenProps;
+type ProductPropsType = BalloonScreenProps | BouquetScreenProps;
 
 const Product: React.FC<ProductPropsType> = ({
   route: {

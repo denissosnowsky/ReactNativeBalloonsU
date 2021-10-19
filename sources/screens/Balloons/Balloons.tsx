@@ -271,10 +271,10 @@ const styles = StyleSheet.create({
   },
   catAndColWrapper: {
     display: "flex",
-    height: 50,
-    flexDirection: "row",
-    justifyContent: "space-around",
+    height: 80,
+    flexDirection: "column",
     alignItems: "center",
+    justifyContent: "space-around"
   },
   cardWrapper: {
     width: "100%",

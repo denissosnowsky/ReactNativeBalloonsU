@@ -41,9 +41,7 @@ const Cart: React.FC = () => {
     setDate({
       ...date,
       allDate: currentDate,
-      time: timeConvertorTo12Format(
-        currentDate
-      ) /* `${currentDate.getHours()}:${currentDate.getMinutes()}`, */,
+      time: `${currentDate.getHours()}:${currentDate.getMinutes()}`,
     });
   };
 
@@ -51,9 +49,9 @@ const Cart: React.FC = () => {
     const currentDate = selectedDate || initDate;
     const year = currentDate.getFullYear();
     const month =
-      String(currentDate.getMonth()).length === 1
-        ? `0${currentDate.getMonth()}`
-        : currentDate.getMonth();
+      String(currentDate.getMonth() + 1).length === 1
+        ? `0${currentDate.getMonth() + 1}`
+        : currentDate.getMonth() + 1;
     const day =
       String(currentDate.getDate()).length === 1
         ? `0${currentDate.getDate()}`
@@ -288,7 +286,7 @@ const Cart: React.FC = () => {
                           Select time:{" "}
                         </MyText>
                         <MyText style={styles.androidDatePicked}>
-                          {date.time}
+                          {date.time && timeConvertorTo12Format(date.allDate)}
                         </MyText>
                       </Pressable>
                     </View>

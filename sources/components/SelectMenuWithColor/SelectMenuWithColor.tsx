@@ -17,7 +17,9 @@ const SelectMenuWithColor: React.FC<SelectMenuWithColorPropsType> = ({
   list,
   selectItem,
 }) => {
-  const [headerText, setHeaderText] = useState("All colors");
+  const defaultHeaderText = "All colors";
+
+  const [headerText, setHeaderText] = useState(defaultHeaderText);
 
   const handleChosenItem = (id: string | undefined, text: string) => {
     setHeaderText(text);
@@ -31,7 +33,7 @@ const SelectMenuWithColor: React.FC<SelectMenuWithColorPropsType> = ({
           <Pressable
             accessibilityLabel="Menu"
             {...triggerProps}
-            style={{ width: "40%" }}
+            style={{ width: "70%" }}
           >
             <View style={styles.header}>
               <View>
@@ -42,12 +44,24 @@ const SelectMenuWithColor: React.FC<SelectMenuWithColorPropsType> = ({
                 />
               </View>
               <MyText style={styles.headerText}>{headerText}</MyText>
+              {headerText !== defaultHeaderText ? (
+                <View
+                  style={[
+                    styles.colorBlock,
+                    {
+                      backgroundColor: list.find(
+                        (item) => item?.name === headerText
+                      )?.cssName,
+                    },
+                  ]}
+                ></View>
+              ) : null}
             </View>
           </Pressable>
         );
       }}
     >
-      <Menu.Item onPress={() => handleChosenItem(undefined, "All colors")}>
+      <Menu.Item onPress={() => handleChosenItem(undefined, defaultHeaderText)}>
         All colors
       </Menu.Item>
       {list &&
@@ -70,7 +84,7 @@ const SelectMenuWithColor: React.FC<SelectMenuWithColorPropsType> = ({
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: "60%",
+    height: 30,
     backgroundColor: "#fff",
     borderRadius: 5,
     borderWidth: 1,
@@ -85,8 +99,9 @@ const styles = StyleSheet.create({
   headerText: {
     lineHeight: 30,
     fontSize: 15,
-    textAlign: "center",
+    height: 30,
     marginRight: 5,
+    marginLeft: 5,
   },
   colorBlock: {
     borderColor: "#ddd",
@@ -95,12 +110,12 @@ const styles = StyleSheet.create({
     height: "100%",
     width: 15,
     marginRight: 5,
+    aspectRatio: 1 / 1,
   },
   menuItem: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start",
-    alignItems: "center",
   },
 });
 

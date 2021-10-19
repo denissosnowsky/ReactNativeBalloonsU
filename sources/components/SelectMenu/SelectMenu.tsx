@@ -26,7 +26,7 @@ const SelectMenu: React.FC<SelectMenuPropsType> = ({ list, selectItem }) => {
           <Pressable
             accessibilityLabel="Menu"
             {...triggerProps}
-            style={{ width: "40%" }}
+            style={{ width: "70%" }}
           >
             <View style={styles.header}>
               <View>
@@ -63,7 +63,7 @@ const SelectMenu: React.FC<SelectMenuPropsType> = ({ list, selectItem }) => {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: "60%",
+    height: 30,
     backgroundColor: "#fff",
     borderRadius: 5,
     borderWidth: 1,
@@ -78,9 +78,10 @@ const styles = StyleSheet.create({
   headerText: {
     lineHeight: 30,
     fontSize: 15,
-    textAlign: "center",
     marginRight: 5,
-  },
+    height: 30,
+    marginLeft: 5
+  }
 });
 
 export default SelectMenu;
