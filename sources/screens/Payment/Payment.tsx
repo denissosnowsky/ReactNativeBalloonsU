@@ -20,8 +20,8 @@ const Payment: React.FC = () => {
 
         <MyText style={styles.text}>
           Please send your request by email to{" "}
-          <Link href="mailto:pg-balloons@gmail.com">
-            <MyText style={styles.email}>pg-balloons@gmail.com</MyText>
+          <Link href="mailto:PGroup.balloons@gmail.com">
+            <MyText style={styles.email}>PGroup.balloons@gmail.com</MyText>
           </Link>
           {"\n"}
           {"\n"}

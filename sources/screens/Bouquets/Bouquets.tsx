@@ -32,7 +32,7 @@ type MainBouquetScreenNavigationProp =
 
 const Bouquets: React.FC = () => {
   const TAKE = 20;
-  const PRICE_STEP = 50;
+  const PRICE_STEP = 10;
 
   const { navigate } = useNavigation<MainBouquetScreenNavigationProp>();
 

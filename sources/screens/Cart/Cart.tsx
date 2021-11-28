@@ -1,9 +1,8 @@
-import { Divider, Input } from "native-base";
+import { Input } from "native-base";
 import React, { SyntheticEvent, useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Foooter from "../../components/Foooter/Foooter";
-import ListForBasket from "../../components/ListForBasket/ListForBasket";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { timeConvertorTo12Format } from "../../utils/timeConvertorTo12Format";
 import MyText from "../../components/MyText/MyText";
@@ -11,19 +10,16 @@ import { useGetBasketValues } from "../../hooks/useGetBasketValues";
 import { useSendOrderMutation } from "../../store/generated/graphql";
 import { showSuccess } from "../../utils/showSucces";
 import { showError } from "../../utils/showError";
-import { FormType } from "../../types/types";
+import { ConvertedBasketObjType, FormType } from "../../types/types";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { emptifyBasket } from "../../utils/emptifyBasket";
-import { useCounterInitState } from "../../hooks/useCounterInitState";
-import { sumOfObjectValues } from "../../utils/sumOfObjectValues";
-import { counterStateChanger } from "../../utils/counterStateChanger";
-import { changeQuantInBasket } from "../../utils/changeQuantInBasket";
-import { deleteFromBasket } from "../../utils/deleteFromBasket";
 import Error from "../Error/Error";
 import { useToast } from "native-base";
 import { useGetErrorStatus } from "../../hooks/useGetErrorStatus";
 import { useGetSuccessStatus } from "../../hooks/useGetSuccessStatus";
+import ProductsBlock from "./ProductsBlock/ProductsBlock";
+import { basketArrConvertor } from "../../utils/basketArrConvertor";
 
 const Cart: React.FC = () => {
   /////// Date and Time code
@@ -84,6 +80,8 @@ const Cart: React.FC = () => {
   const [code, setCode] = useState("");
 
   const basket = useGetBasketValues();
+  const convertedBasket: Array<ConvertedBasketObjType> =
+    basketArrConvertor(basket);
 
   const [sendOrder, { data, loading, error }] = useSendOrderMutation({
     onCompleted(data) {
@@ -170,51 +168,13 @@ const Cart: React.FC = () => {
     });
   };
 
-  const initialState = useCounterInitState(basket);
-
-  const [counters, setCounters] =
-    useState<Record<string, number>>(initialState);
-
-  const [sum, setSum] = useState<number>(0);
-
-  useMemo(() => setSum(sumOfObjectValues(counters)), [counters]);
-
-  const handleCounterPrice = (id: string, initValue: number) => {
-    return (value: number) => {
-      setCounters(counterStateChanger(counters, id, value, initValue));
-      changeQuantInBasket && changeQuantInBasket(id, value);
-    };
-  };
-
-  const handleDeleteItem = (id: string, initValue: number) => {
-    setCounters(counterStateChanger(counters, id, 0, initValue));
-    deleteFromBasket && deleteFromBasket(id);
-  };
-
   return (
     <>
       {basket &&
         (basket.length > 0 ? (
           <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
-              <View style={styles.cardWrapper}>
-                {basket.map((item, i) => (
-                  <View key={item.id}>
-                    <ListForBasket
-                      data={item}
-                      order={i + 1}
-                      countClb={handleCounterPrice(item.id, item.price)}
-                      deleteClb={() => handleDeleteItem(item.id, item.price)}
-                      totalPrice={counters[item.id]}
-                    />
-                    <Divider w={"100%"} style={styles.divider} />
-                  </View>
-                ))}
-                <View style={styles.total}>
-                  <MyText style={styles.totalText}>TOTAL:</MyText>
-                  <MyText style={styles.totalText}>{`${sum} $`}</MyText>
-                </View>
-              </View>
+              <ProductsBlock basket={convertedBasket} />
               <View style={styles.formWrapper}>
                 <MyText style={styles.formHeader}>
                   Application for deliveries:
@@ -382,9 +342,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
   },
-  cardWrapper: {
-    paddingTop: 20,
-  },
   formWrapper: {
     display: "flex",
     alignItems: "center",
@@ -396,7 +353,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    width: "70%",
+    width: "75%",
     height: 50,
     fontSize: 18,
     backgroundColor: "white",
@@ -404,7 +361,7 @@ const styles = StyleSheet.create({
     color: "#0d6efd",
   },
   dataInput: {
-    width: "70%",
+    width: "75%",
     height: 50,
     fontSize: 18,
     backgroundColor: "white",
@@ -466,17 +423,6 @@ const styles = StyleSheet.create({
   emptyBasketText: {
     fontSize: 20,
     color: "#e91e63",
-  },
-  totalText: {
-    marginTop: 10,
-    fontSize: 20,
-    color: "#e91e63",
-    fontFamily: "Roboto_700Bold",
-  },
-  total: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   errorToast: {
     backgroundColor: "rgba(233,30,99,.9)",

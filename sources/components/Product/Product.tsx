@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
+    textAlign: "justify"
   },
   code: {
     fontSize: 15,

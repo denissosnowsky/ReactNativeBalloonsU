@@ -38,7 +38,7 @@ type MainBalloonScreenNavigationProp =
 
 const Bouquets: React.FC = () => {
   const TAKE = 20;
-  const PRICE_STEP = 50;
+  const PRICE_STEP = 10;
 
   const { navigate } = useNavigation<MainBalloonScreenNavigationProp>();
 
@@ -72,7 +72,8 @@ const Bouquets: React.FC = () => {
     loading: loadingColor,
     error: errorColor,
     data: dataColor,
-  } = useColorsQuery();
+    fetchMore: fetchMoreColors,
+  } = useColorsQuery({ variables: { categoryId: category } });
 
   const {
     loading: loadingMaxPrice,
@@ -119,6 +120,14 @@ const Bouquets: React.FC = () => {
       },
     });
   }, [page]);
+
+  useEffect(() => {
+    fetchMoreColors({
+      variables: {
+        categoryId: category,
+      },
+    });
+  }, [category]);
 
   const handleFilter = useCallback(
     (type: "RANGE" | "CATEGORY" | "COLOR") =>
@@ -274,7 +283,7 @@ const styles = StyleSheet.create({
     height: 80,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   cardWrapper: {
     width: "100%",

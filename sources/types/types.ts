@@ -77,3 +77,11 @@ export type FormType = {
   time: string;
 };
 
+export type ConvertedBasketObjType = {
+  leftText: string;
+  rightText: string;
+  id: string;
+  image: string;
+  description: string;
+  quantity: number;
+};

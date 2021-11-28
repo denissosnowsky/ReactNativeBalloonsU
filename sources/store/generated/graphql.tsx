@@ -213,6 +213,7 @@ export type MutationChangeDeliveryPriceArgs = {
 
 
 export type MutationChangeManyPricesToBalloonsArgs = {
+  categoryId?: Maybe<Scalars['ID']>;
   newPrice: Scalars['Int'];
   oldPrice: Scalars['Int'];
 };
@@ -337,6 +338,11 @@ export type RootQueryTypeBouquetsArgs = {
   take: Scalars['Int'];
 };
 
+
+export type RootQueryTypeColorsArgs = {
+  categoryId?: Maybe<Scalars['ID']>;
+};
+
 export type SocialNet = {
   __typename?: 'SocialNet';
   id: Scalars['ID'];
@@ -418,7 +424,9 @@ export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CategoriesQuery = { __typename?: 'RootQueryType', categories?: Array<{ __typename?: 'Category', id: string, name: string } | null | undefined> | null | undefined };
 
-export type ColorsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ColorsQueryVariables = Exact<{
+  categoryId?: Maybe<Scalars['ID']>;
+}>;
 
 
 export type ColorsQuery = { __typename?: 'RootQueryType', colors?: Array<{ __typename?: 'Color', id: string, name: string, cssName: string } | null | undefined> | null | undefined };
@@ -675,7 +683,7 @@ export type RootQueryTypeResolvers<ContextType = any, ParentType extends Resolve
   bouquet?: Resolver<Maybe<ResolversTypes['Bouquet']>, ParentType, ContextType, RequireFields<RootQueryTypeBouquetArgs, 'id'>>;
   bouquets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Bouquet']>>>, ParentType, ContextType, RequireFields<RootQueryTypeBouquetsArgs, 'skip' | 'take'>>;
   categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
-  colors?: Resolver<Maybe<Array<Maybe<ResolversTypes['Color']>>>, ParentType, ContextType>;
+  colors?: Resolver<Maybe<Array<Maybe<ResolversTypes['Color']>>>, ParentType, ContextType, RequireFields<RootQueryTypeColorsArgs, never>>;
   deliveryPrice?: Resolver<Maybe<ResolversTypes['DeliveryPrice']>, ParentType, ContextType>;
   maxBalloonPrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   maxBouquetPrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -1114,8 +1122,8 @@ export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const ColorsDocument = gql`
-    query Colors {
-  colors {
+    query Colors($categoryId: ID) {
+  colors(categoryId: $categoryId) {
     id
     name
     cssName
@@ -1135,6 +1143,7 @@ export const ColorsDocument = gql`
  * @example
  * const { data, loading, error } = useColorsQuery({
  *   variables: {
+ *      categoryId: // value for 'categoryId'
  *   },
  * });
  */

@@ -12,6 +12,7 @@ import { Link } from "native-base";
 import { googleUrl } from "../../../config";
 import Footer from "../../components/Foooter/Foooter";
 import MyText from "../../components/MyText/MyText";
+import { flex } from "styled-system";
 
 const Contacts: React.FC = () => {
   const {
@@ -61,8 +62,14 @@ const Contacts: React.FC = () => {
           ))}
       </View>
       <View style={styles.emailWrapper}>
-        <Link href="mailto:pg-balloons@gmail.com">
-          <MyText style={styles.email}>pg-balloons@gmail.com</MyText>
+        <Link href="mailto:PGroup.balloons@gmail.com" style={styles.linkBlock}>
+          <MyText style={styles.email}>PGroup.balloons@gmail.com</MyText>
+        </Link>
+        <Link
+          href="https://pgballoons.com"
+          style={[styles.linkBlock, styles.linkLastBlock]}
+        >
+          <MyText style={styles.website}>pgballoons.com</MyText>
         </Link>
       </View>
       <Footer />
@@ -85,6 +92,7 @@ const styles = StyleSheet.create({
   phoneText: {
     fontSize: 20,
     marginBottom: 10,
+    color: "blue",
   },
   netsWrapper: {
     width: "100%",
@@ -107,11 +115,27 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   email: {
-    fontSize: 20,
+    fontSize: 23,
+    textAlign: "center",
+    color: "blue",
+  },
+  website: {
+    fontSize: 23,
+    textAlign: "center",
+    color: 'blue',
+    textDecorationLine: 'underline'
   },
   emailWrapper: {
-    marginBottom: 30
-  }
+    marginBottom: 30,
+  },
+  linkBlock: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 40,
+  },
+  linkLastBlock: {
+    marginBottom: 0,
+  },
 });
 
 export default Contacts;

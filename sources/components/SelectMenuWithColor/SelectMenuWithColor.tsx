@@ -49,9 +49,10 @@ const SelectMenuWithColor: React.FC<SelectMenuWithColorPropsType> = ({
                   style={[
                     styles.colorBlock,
                     {
-                      backgroundColor: list.find(
-                        (item) => item?.name === headerText
-                      )?.cssName,
+                      backgroundColor: list
+                        ? list.find((item) => item?.name === headerText)
+                            ?.cssName
+                        : "white",
                     },
                   ]}
                 ></View>

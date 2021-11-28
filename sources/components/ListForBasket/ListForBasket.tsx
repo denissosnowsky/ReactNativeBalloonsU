@@ -3,12 +3,10 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MyText from "../MyText/MyText";
-import { BasketObjType } from "../../types/types";
-import { googleUrl } from "../../../config";
-import { OrderType } from "../../store/variables";
+import { ConvertedBasketObjType } from "../../types/types";
 
 interface ListForBasketPropsType {
-  data: OrderType;
+  data: ConvertedBasketObjType;
   order: number;
   countClb?: (arg: number) => void;
   deleteClb: () => void;
@@ -40,7 +38,7 @@ const ListForBasket: React.FC<ListForBasketPropsType> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <MyText style={styles.headerText}>{`${order}. ${data.name}`}</MyText>
+        <MyText style={styles.headerText}>{`${order}. ${data.leftText}`}</MyText>
         <Pressable style={styles.deleteSign} onPress={deleteClb}>
           <MaterialIcons name="delete" size={30} color="red" />
         </Pressable>
