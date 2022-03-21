@@ -16,4 +16,6 @@ Run this command in the project directory to start:
 
 ### `expo start`
 
-You will see QR-code. In order to open it on your phone, download 'Expo' app from the App Store/Play Market and read the QR-code via the downloaded app
+You will see QR-code. In order to open it on your phone, download 'Expo' app from the App Store/Play Market and read the QR-code via the downloaded app.
+
+Note: this application needs server from this website to be launched: https://github.com/denissosnowsky/pgballoons. After server launch change graphqlUrl variable to your local ip with 5000 port and /graphql param
